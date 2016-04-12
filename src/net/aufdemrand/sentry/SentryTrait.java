@@ -40,7 +40,6 @@ public class SentryTrait extends Trait implements Toggleable {
         thisInstance.sentryGroup = key.getString("Group", "none");
         thisInstance.Invincible = key.getBoolean("Invincinble", plugin.getConfig().getBoolean("DefaultOptions.Invincible", false));
         thisInstance.DropInventory = key.getBoolean("DropInventory", plugin.getConfig().getBoolean("DefaultOptions.Drops", false));
-        thisInstance.LuckyHits = key.getBoolean("CriticalHits", plugin.getConfig().getBoolean("DefaultOptions.Criticals", true));
         thisInstance.sentryHealth = key.getDouble("Health", plugin.getConfig().getInt("DefaultStats.Health", 20));
         thisInstance.sentryRange = key.getInt("Range", plugin.getConfig().getInt("DefaultStats.Range", 10));
         thisInstance.RespawnDelaySeconds = key.getInt("RespawnDelay", plugin.getConfig().getInt("DefaultStats.Respawn", 10));
@@ -58,11 +57,10 @@ public class SentryTrait extends Trait implements Toggleable {
         thisInstance.NightVision = key.getInt("NightVision", plugin.getConfig().getInt("DefaultStats.NightVision", 16));
         thisInstance.KillsDropInventory = key.getBoolean("KillDrops", plugin.getConfig().getBoolean("DefaultOptions.KillDrops", true));
         thisInstance.IgnoreLOS = key.getBoolean("IgnoreLOS", plugin.getConfig().getBoolean("DefaultOptions.IgnoreLOS", false));
-        thisInstance.MountID = key.getInt("MountID", (int) -1);
         thisInstance.Targetable = key.getBoolean("Targetable", plugin.getConfig().getBoolean("DefaultOptions.Targetable", true));
         thisInstance.ignoreLeash = key.getBoolean("ignoreLeash");
         thisInstance.isCrew = key.getBoolean("isCrew");
-                
+
         if (key.keyExists("Spawn")) {
             try {
                 thisInstance.Spawn = new Location(plugin.getServer().getWorld(key.getString("Spawn.world")), key.getDouble("Spawn.x"), key.getDouble("Spawn.y"), key.getDouble("Spawn.z"), (float) key.getDouble("Spawn.yaw"), (float) key.getDouble("Spawn.pitch"));
@@ -109,7 +107,7 @@ public class SentryTrait extends Trait implements Toggleable {
             }
 
         }
-        
+
         thisInstance.sentryHealth -= plugin.getConfig().getInt("DefaultOptions.LoadHealthLoss");
 
         thisInstance.loaded = true;
@@ -150,7 +148,7 @@ public class SentryTrait extends Trait implements Toggleable {
     @Override
     public void onRemove() {
 
-		//	plugin = (Sentry) Bukkit.getPluginManager().getPlugin("Sentry");
+        //	plugin = (Sentry) Bukkit.getPluginManager().getPlugin("Sentry");
         if (thisInstance != null) {
             //	plugin.getServer().broadcastMessage("onRemove");
             thisInstance.cancelRunnable();
@@ -174,7 +172,6 @@ public class SentryTrait extends Trait implements Toggleable {
         if (thisInstance != null) {
             thisInstance.isRespawnable = System.currentTimeMillis() + thisInstance.RespawnDelaySeconds * 1000;
             thisInstance.sentryStatus = Status.isDEAD;
-            thisInstance.dismount();
         }
     }
 
@@ -192,9 +189,7 @@ public class SentryTrait extends Trait implements Toggleable {
         key.setBoolean("ignoreLeash", thisInstance.ignoreLeash);
         key.setBoolean("isCrew", thisInstance.isCrew);
         key.setString("Group", thisInstance.sentryGroup);
-        key.setInt("MountID", thisInstance.MountID);
 
-        key.setBoolean("CriticalHits", thisInstance.LuckyHits);
         key.setBoolean("IgnoreLOS", thisInstance.IgnoreLOS);
         key.setRaw("Targets", thisInstance.validTargets);
         key.setRaw("Ignores", thisInstance.ignoreTargets);
